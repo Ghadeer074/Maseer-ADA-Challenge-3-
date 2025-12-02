@@ -116,7 +116,7 @@ struct HistoryInfoView: View {
         .animation(.easeInOut, value: showDeleteAlert)
        
         .alert(
-            "حذف السجل",
+            "حذف السّجل",
             isPresented: $showDeleteAlert,
             actions: {
                 Button("تراجع", role: .cancel) {
@@ -129,7 +129,7 @@ struct HistoryInfoView: View {
                 }
             },
             message: {
-                Text("هل أنت متأكد أنك تريد حذف سجل \"\(Title)\"؟")
+                Text("هل أنت متأكد أنك تريد حذف سّجل \"\(Title)\"؟")
             }
         )
     }
