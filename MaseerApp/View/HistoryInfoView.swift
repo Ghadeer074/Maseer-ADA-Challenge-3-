@@ -28,11 +28,11 @@ struct HistoryInfoView: View {
             Color.black.ignoresSafeArea()
 
             VStack(spacing: 0) {
-               
+
                 Spacer().frame(height: 50)
 
                 GlassEffectContainer {
-                    ZStack {
+                    ZStack(alignment: .topTrailing) {
                         // Content column (title, date, description, delete button)
                         VStack(alignment: .trailing, spacing: 16) {
 
@@ -45,15 +45,14 @@ struct HistoryInfoView: View {
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.trailing)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
-                                    .padding(.top, 26)
-                                    .padding(.trailing, 32)
+                                    .padding(.horizontal, 32)   // same left & right padding
+
 
                                 Text(dateText)
                                     .font(.custom("Geeza Pro", size: 18).bold())
                                     .foregroundColor(.gray.opacity(0.8))
                                     .multilineTextAlignment(.trailing)
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                                    .padding(.trailing, 32)
+                                    .padding(.horizontal, 32)
                             }
 
                             // Description
@@ -61,7 +60,6 @@ struct HistoryInfoView: View {
                                 .font(.custom("Geeza Pro", size: 20).bold())
                                 .foregroundColor(.white.opacity(0.8))
                                 .multilineTextAlignment(.trailing)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
                                 .padding(.horizontal, 32)
                                 .padding(.top, 18)
 
@@ -81,26 +79,18 @@ struct HistoryInfoView: View {
                             .padding(.bottom, 24)
                         }
 
-                        // Close button overlay (top-right)
-                        VStack {
-                            HStack {
-                                Spacer()
-
-                                Button {
-                                    dismiss()
-                                } label: {
-                                    Text("إغلاق")
-                                        .font(.custom("Geeza Pro", size: 18).bold())
-                                        .foregroundColor(.white)
-                                        .frame(width: 81, height: 41)
-                                }
-                                .glassEffect(.clear.tint(Color.darkerGray.opacity(1)))
-                                .padding(.top, 24)
-                                .padding(.trailing, 24)
-                            }
-
-                            Spacer()
+                        // Close button overlay (logical trailing, respects RTL)
+                        Button {
+                            dismiss()
+                        } label: {
+                            Text("إغلاق")
+                                .font(.custom("Geeza Pro", size: 18).bold())
+                                .foregroundColor(.white)
+                                .frame(width: 81, height: 41)
                         }
+                        .glassEffect(.clear.tint(Color.darkerGray.opacity(1)))
+                        .padding(.top, 24)
+                        .padding(.horizontal, 24)
                     }
                 }
                 .frame(width: 396, height: 792)
@@ -112,11 +102,12 @@ struct HistoryInfoView: View {
                 Spacer() // keeps whole card in same place visually
             }
         }
-        .environment(\.layoutDirection, .rightToLeft)
+        // Set logical direction to RTL so trailing = right and leading = left for Arabic
+       // .environment(\.layoutDirection, .rightToLeft)
         .animation(.easeInOut, value: showDeleteAlert)
-       
+
         .alert(
-            "حذف السّجل",
+            "حذف السجّل",
             isPresented: $showDeleteAlert,
             actions: {
                 Button("تراجع", role: .cancel) {
@@ -129,7 +120,7 @@ struct HistoryInfoView: View {
                 }
             },
             message: {
-                Text("هل أنت متأكد أنك تريد حذف سّجل \"\(Title)\"؟")
+                Text("هل أنت متأكد أنك تريد حذف سجّل \"\(Title)\"؟ ، اذا كنت متاكد اضغط “حذف”، واذا كنت لا تريد حذف السّجل اضغط “تراجع” ")
             }
         )
     }

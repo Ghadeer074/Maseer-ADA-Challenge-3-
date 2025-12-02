@@ -12,6 +12,7 @@ struct MaseerAppApp: App {
     var body: some Scene {
         WindowGroup {
             HistoryInfoView()
+                .environment(\.layoutDirection, .rightToLeft)
         }
     }
 }
