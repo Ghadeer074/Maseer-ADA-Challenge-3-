@@ -1,7 +1,11 @@
 import SwiftUI
+import CoreLocation
 
-struct SurroundingsMainScreen: View {
+struct CamView: View {
     @Environment(\.dismiss) private var dismiss
+
+    // Accept the user's (optional) location passed from the loading screen.
+    let userLocation: CLLocation?
 
     var body: some View {
         ZStack {
@@ -29,6 +33,9 @@ struct SurroundingsMainScreen: View {
                         .background(Color.white.opacity(0.05))
                         .clipShape(Capsule())
                         .shadow(color: .black.opacity(0.25), radius: 6, y: 3)
+                        .onTapGesture {
+                            dismiss()
+                        }
                 }
                 .padding(.top, 45)
                 .padding(.trailing, 25)
@@ -47,7 +54,6 @@ struct SurroundingsMainScreen: View {
 
                     // EXTRA DARK MILK GLASS TINT
                     Color.black.opacity(0.25)
-
                 }
                 .frame(maxWidth: .infinity)
                 .frame(height: 360)                // ← HEIGHT WORKS NOW
@@ -57,7 +63,6 @@ struct SurroundingsMainScreen: View {
                 .overlay(
                     // All text inside overlay (this fixes clipping issues)
                     VStack(alignment: .trailing, spacing: 14) {
-
                         Text("جاري إنتاج معلومات محيطك..")
                             .foregroundColor(.white)
                             .font(.headline)
@@ -73,6 +78,20 @@ struct SurroundingsMainScreen: View {
                             .multilineTextAlignment(.leading)
 
                         Spacer()
+
+                        // Additional content inside the same overlay VStack
+                        Text("Camera + AI will live here.")
+                            .foregroundColor(.white)
+
+                        if let loc = userLocation {
+                            Text("Lat: \(loc.coordinate.latitude)")
+                                .foregroundColor(.white)
+                            Text("Lon: \(loc.coordinate.longitude)")
+                                .foregroundColor(.white)
+                        } else {
+                            Text("No location yet.")
+                                .foregroundColor(.white)
+                        }
                     }
                     .padding(25)
                 )
@@ -81,7 +100,6 @@ struct SurroundingsMainScreen: View {
         }
     }
 }
-
 
 struct BlurView: UIViewRepresentable {
     var style: UIBlurEffect.Style
@@ -97,5 +115,6 @@ struct BlurView: UIViewRepresentable {
 }
 
 #Preview {
-    SurroundingsMainScreen()
+    // Provide a nil or sample location for preview
+    CamView(userLocation: nil)
 }

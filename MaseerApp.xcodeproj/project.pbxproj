@@ -10,9 +10,22 @@
 		6BD189962EDC1BEA0005EBC2 /* MaseerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaseerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6B8A81872EE0A18A0081D79F /* Exceptions for "MaseerApp" folder in "MaseerApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 6BD189952EDC1BEA0005EBC2 /* MaseerApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6BD189982EDC1BEA0005EBC2 /* MaseerApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6B8A81872EE0A18A0081D79F /* Exceptions for "MaseerApp" folder in "MaseerApp" target */,
+			);
 			path = MaseerApp;
 			sourceTree = "<group>";
 		};
@@ -256,11 +269,17 @@
 				DEVELOPMENT_TEAM = 7YHB7894PL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MaseerApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "نستخدم الكاميرا لوصف ما امامك و مساعدتك على العثور على المتاجر القريبة والتعرف على المحيط";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "نستخدم موقعك لمساعدتك على العثور على المتاجر القريبة منك";
+				INFOPLIST_KEY_NSLocationUsageDescription = "نستخدم موقعك لمساعدتك على العثور على المتاجر القريبة منك";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -288,11 +307,17 @@
 				DEVELOPMENT_TEAM = 7YHB7894PL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MaseerApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "نستخدم الكاميرا لوصف ما امامك و مساعدتك على العثور على المتاجر القريبة والتعرف على المحيط";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "نستخدم موقعك لمساعدتك على العثور على المتاجر القريبة منك";
+				INFOPLIST_KEY_NSLocationUsageDescription = "نستخدم موقعك لمساعدتك على العثور على المتاجر القريبة منك";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
