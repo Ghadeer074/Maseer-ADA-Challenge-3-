@@ -10,7 +10,7 @@ import AVFoundation
 
 // MARK: - Camera preview wrapper
 
-/// UIView whose main layer *is* an AVCaptureVideoPreviewLayer.
+// UIView whose main layer *is* an AVCaptureVideoPreviewLayer.
 final class CameraPreviewView: UIView {
     override class var layerClass: AnyClass {
         AVCaptureVideoPreviewLayer.self
@@ -42,6 +42,7 @@ struct CameraPreview: UIViewRepresentable {
         if #available(iOS 17.0, *) {
             if let connection = layer.connection,
                connection.isVideoRotationAngleSupported(0) {
+                // 0 degrees → portrait. Adjust to 90/270 if orientation looks off.
                 connection.videoRotationAngle = 0
             }
         } else {
@@ -60,7 +61,7 @@ struct AICamView: View {
     // Accept the user's (optional) location passed from the loading screen.
     let userLocation: CLLocation?
 
-    // Our camera ViewModel (AVCaptureSession + Vision logic)
+    //  camera ViewModel (AVCaptureSession + Vision logic)
     @StateObject private var cameraVM = AICameraVM()
 
     // Simple TTS for spoken feedback
@@ -122,7 +123,7 @@ struct AICamView: View {
                             .foregroundColor(.white)
                             .font(.headline)
 
-                        // 👇 AI-generated description text
+                        // AI-generated description text
                         Text(cameraVM.descriptionText)
                             .foregroundColor(.white)
                             .font(.body)
@@ -133,16 +134,6 @@ struct AICamView: View {
                         if cameraVM.permissionDenied {
                             Text("الرجاء تفعيل صلاحية الكاميرا من الإعدادات.")
                                 .foregroundColor(.red)
-                        }
-
-                        if let loc = userLocation {
-                            Text("Lat: \(loc.coordinate.latitude)")
-                                .foregroundColor(.white)
-                            Text("Lon: \(loc.coordinate.longitude)")
-                                .foregroundColor(.white)
-                        } else {
-                            Text("No location yet.")
-                                .foregroundColor(.white)
                         }
                     }
                     .padding(25)
@@ -169,23 +160,22 @@ struct AICamView: View {
         // Don’t repeat the exact same sentence
         guard text != lastSpokenText else { return }
 
-        // Don’t speak more often than every 2 seconds
+        // Don’t speak more often than every 3 seconds
         let now = Date()
-        guard now.timeIntervalSince(lastSpokenTime) > 2 else { return }
+        guard now.timeIntervalSince(lastSpokenTime) > 3 else { return }
         lastSpokenTime = now
         lastSpokenText = text
 
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: "ar-SA")
-        utterance.rate = 0.48   // tweak if you want slower/faster
+        utterance.rate = 0.48   // tweak slightly slower/faster
 
         speechSynth.stopSpeaking(at: .immediate)
         speechSynth.speak(utterance)
     }
-
 }
 
-// Your existing blur helper
+// blur helper
 struct BlurView: UIViewRepresentable {
     var style: UIBlurEffect.Style
 

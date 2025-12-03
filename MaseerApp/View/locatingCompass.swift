@@ -10,10 +10,10 @@ import CoreLocation
 
 struct LoadingLocationView: View {
 
-    // Our observable location helper.
+    //  observable location helper.
     @StateObject private var locationManager = LocationManager()
 
-    // When true, we move to the camera + AI screen.
+    // When true,  move to the camera + AI screen.
     @State private var goNext = false
 
     var body: some View {

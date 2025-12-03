@@ -25,6 +25,9 @@ final class AICameraVM: NSObject, ObservableObject {
     private let sessionQueue = DispatchQueue(label: "AICameraSessionQueue")
     private var isProcessingFrame = false
     private var lastVisionTime: CFTimeInterval = 0
+
+    // Last recognized sign text to avoid repeating the same thing
+    private var lastRecognizedText: String = ""
 }
 
 // MARK: - Public API
@@ -109,12 +112,8 @@ extension AICameraVM {
 
         if let connection = output.connection(with: .video) {
             if #available(iOS 17.0, *) {
-                // 90 degrees typically corresponds to portrait
-                let portraitAngle: CGFloat = 90
-                if connection.isVideoRotationAngleSupported(portraitAngle) {
-                    connection.videoRotationAngle = portraitAngle
-                } else if connection.isVideoRotationAngleSupported(0) {
-                    // Fallback to 0 if 90 not supported
+                // 0 degrees = portrait
+                if connection.isVideoRotationAngleSupported(0) {
                     connection.videoRotationAngle = 0
                 }
             } else {
@@ -147,7 +146,6 @@ extension AICameraVM: AVCaptureVideoDataOutputSampleBufferDelegate {
 
         guard !isProcessingFrame else { return }
         isProcessingFrame = true
-        defer { /* reset in completion handler */ }
 
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             isProcessingFrame = false
@@ -172,7 +170,7 @@ extension AICameraVM: AVCaptureVideoDataOutputSampleBufferDelegate {
             // Pick the observation with the largest area (most prominent text)
             let best = observations.compactMap { obs -> (String, CGRect)? in
                 guard let text = obs.topCandidates(1).first?.string else { return nil }
-                return (text, obs.boundingBox)   // boundingBox is in normalized coords (0..1)
+                return (text, obs.boundingBox)   // boundingBox is normalized (0..1)
             }
             .max { a, b in
                 let areaA = a.1.width * a.1.height
@@ -181,6 +179,12 @@ extension AICameraVM: AVCaptureVideoDataOutputSampleBufferDelegate {
             }
 
             guard let (text, box) = best, !text.isEmpty else { return }
+
+            // Prevent repeating the exact same recognized text
+            if text == self.lastRecognizedText {
+                return
+            }
+            self.lastRecognizedText = text
 
             // Compute rough left/center/right based on horizontal position
             let midX = box.midX
@@ -207,7 +211,6 @@ extension AICameraVM: AVCaptureVideoDataOutputSampleBufferDelegate {
             let newDescription = "\(position) \(distance) لافتة مكتوب عليها: \"\(text)\""
 
             DispatchQueue.main.async {
-                // Only update if it's really different, to reduce spam
                 if newDescription != self.descriptionText {
                     self.descriptionText = newDescription
                 }
