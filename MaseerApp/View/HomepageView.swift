@@ -52,7 +52,7 @@ struct HomepageView: View {
                     }) {
                         Text("ابدا")
                             .font(.custom("Geeza Pro", size: 21))
-                            .fontWeight(.bold)
+                             .fontWeight(.bold)
                             .foregroundColor(Color.white)
                             .frame(maxWidth: .infinity)
                     }
