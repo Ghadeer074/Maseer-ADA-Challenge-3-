@@ -56,7 +56,7 @@ struct LoadingLocationView: View {
         }
         .fullScreenCover(isPresented: $goNext) {
             // Pass the location forward to the camera screen.
-            CamView(userLocation: locationManager.currentLocation)
+            AICamView(userLocation: locationManager.currentLocation)
         }
     }
 }

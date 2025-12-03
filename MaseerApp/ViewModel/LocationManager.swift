@@ -36,17 +36,20 @@ final class LocationManager: NSObject, ObservableObject {
         errorMessage = nil
         isLocating = true
 
-        switch manager.authorizationStatus {
+        let status = manager.authorizationStatus
+        print("⚙️ LocationManager.start() – status = \(status.rawValue)")
+
+        switch status {
         case .notDetermined:
-            // First time: show the system popup.
+            print("➡️ Requesting when-in-use authorization")
             manager.requestWhenInUseAuthorization()
 
         case .authorizedWhenInUse, .authorizedAlways:
-            //  already have permission.
+            print("✅ Already authorized, starting updates")
             manager.startUpdatingLocation()
 
         case .denied, .restricted:
-            // User said "no" or cannot give permission.
+            print("⛔️ Permission denied or restricted")
             isLocating = false
             errorMessage = "لا يمكن استخدام موقعك. تأكد من تفعيل الصلاحيات في الإعدادات."
 
@@ -54,6 +57,7 @@ final class LocationManager: NSObject, ObservableObject {
             isLocating = false
         }
     }
+
 }
 
 // CLLocationManagerDelegate
@@ -69,16 +73,19 @@ extension LocationManager: CLLocationManagerDelegate {
 
     // Called whenever we get new GPS coordinates.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("📍 didUpdateLocations – got \(locations.count) locations")
         guard let last = locations.last else { return }
 
-        currentLocation = last      // publish to SwiftUI
+        print("📍 last = \(last.coordinate.latitude), \(last.coordinate.longitude)")
+        currentLocation = last
         isLocating = false
-        manager.stopUpdatingLocation() // for now we just need 1 fix
+        manager.stopUpdatingLocation()
     }
 
-    // Called when something goes wrong (no GPS, etc.).
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("❌ didFailWithError: \(error.localizedDescription)")
         isLocating = false
         errorMessage = error.localizedDescription
     }
+
 }

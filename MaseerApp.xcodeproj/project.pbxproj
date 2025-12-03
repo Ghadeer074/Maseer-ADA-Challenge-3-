@@ -273,8 +273,10 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "نستخدم الكاميرا لوصف ما امامك و مساعدتك على العثور على المتاجر القريبة والتعرف على المحيط";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "نستخدم موقعك لمساعدتك على التعرف على المتاجر القريبة منك";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "نستخدم موقعك لمساعدتك على العثور على المتاجر القريبة منك";
 				INFOPLIST_KEY_NSLocationUsageDescription = "نستخدم موقعك لمساعدتك على العثور على المتاجر القريبة منك";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "نستخدم موقعك لمساعدتك على التعرف على المتاجر القريبة ومحيطك.\n";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -311,8 +313,10 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "نستخدم الكاميرا لوصف ما امامك و مساعدتك على العثور على المتاجر القريبة والتعرف على المحيط";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "نستخدم موقعك لمساعدتك على التعرف على المتاجر القريبة منك";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "نستخدم موقعك لمساعدتك على العثور على المتاجر القريبة منك";
 				INFOPLIST_KEY_NSLocationUsageDescription = "نستخدم موقعك لمساعدتك على العثور على المتاجر القريبة منك";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "نستخدم موقعك لمساعدتك على التعرف على المتاجر القريبة ومحيطك.\n";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
