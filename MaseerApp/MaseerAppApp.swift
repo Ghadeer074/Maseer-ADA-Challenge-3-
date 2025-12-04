@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
-
+import SwiftData
 @main
 struct MaseerAppApp: App {
     var body: some Scene {
         WindowGroup {
-            LoadingLocationView()
-                .environment(\.layoutDirection, .rightToLeft)
+            RootView()
+                .modelContainer(for: HistoryItem.self)
         }
     }
 }
+
+

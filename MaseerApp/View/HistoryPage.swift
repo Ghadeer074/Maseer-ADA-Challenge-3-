@@ -5,81 +5,50 @@
 //  Created by Feda  on 02/12/2025.
 //
 
-
 import SwiftUI
 import SwiftData
 
 struct HistoryPage: View {
 
-    @Environment(\.dismiss) private var dismiss
-
+    // SwiftData query
     @Query(sort: \HistoryItem.date, order: .reverse)
     private var items: [HistoryItem]
 
+    // When user taps a row
+    let onSelect: (HistoryItem) -> Void
+
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color.black
-                    .ignoresSafeArea()
+        ZStack {
+            Color.black
+                .ignoresSafeArea()
 
-                ScrollView {
-                    VStack(alignment: .trailing, spacing: 20) {
+            ScrollView {
+                VStack(alignment: .trailing, spacing: 20) {
 
-                        // عنوان الصفحة كبير داخل المحتوى
-                        Text("السّجلات السابقة")
-                            .font(.system(size: 34, weight: .bold))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.bottom, 8)
-
-                        ForEach(items) { item in
-                            VStack(alignment: .trailing, spacing: 6) {
-                                Text(item.title)
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-
-                                Text(formatDate(item.date))
-                                    .font(.subheadline)
-                                    .foregroundColor(.white.opacity(0.7))
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                            }
-                            .padding(.vertical, 20)
-                            .padding(.horizontal, 24)
-                            .background(
-                                RoundedRectangle(cornerRadius: 28, style: .continuous)
-                                    .fill(Color.white.opacity(0.06))   // خلفية شبه شفافة
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 28, style: .continuous)
-                                    .stroke(Color.white.opacity(0.15), lineWidth: 1) // حد خفيف
-                            )
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 16)
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        HStack(spacing: 4) {
-                            Image(systemName: "chevron.backward")
-                            Text("رجوع")
-                        }
+                    Text("السّجلات السابقة")
+                        .font(.system(size: 34, weight: .bold))
                         .foregroundColor(.white)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.bottom, 8)
+
+                    ForEach(items) { item in
+                        Button {
+                            onSelect(item)
+                        } label: {
+                            HistoryRow(
+                                title: item.title,
+                                subtitle: formatDate(item.date)
+                            )
+                        }
                     }
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 16)
             }
         }
         .environment(\.layoutDirection, .rightToLeft)
     }
 
-    // تنسيق التاريخ للنص
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ar_SA")
@@ -87,7 +56,10 @@ struct HistoryPage: View {
         return formatter.string(from: date)
     }
 }
+
 #Preview {
-    HistoryPage()
-        .modelContainer(for: HistoryItem.self, inMemory: true)
+    @Previewable @State var container = try! ModelContainer(for: HistoryItem.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+
+    return HistoryPage { _ in }
+        .modelContainer(container)
 }

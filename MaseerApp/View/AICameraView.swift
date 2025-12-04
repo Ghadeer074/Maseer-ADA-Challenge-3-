@@ -10,7 +10,6 @@ import AVFoundation
 
 // MARK: - Camera preview wrapper
 
-// UIView whose main layer *is* an AVCaptureVideoPreviewLayer.
 final class CameraPreviewView: UIView {
     override class var layerClass: AnyClass {
         AVCaptureVideoPreviewLayer.self
@@ -42,7 +41,6 @@ struct CameraPreview: UIViewRepresentable {
         if #available(iOS 17.0, *) {
             if let connection = layer.connection,
                connection.isVideoRotationAngleSupported(0) {
-                // 0 degrees → portrait. Adjust to 90/270 if orientation looks off.
                 connection.videoRotationAngle = 0
             }
         } else {
@@ -56,15 +54,15 @@ struct CameraPreview: UIViewRepresentable {
 
 // MARK: - Main AI camera screen
 struct AICamView: View {
-    @Environment(\.dismiss) private var dismiss
 
     // Accept the user's (optional) location passed from the loading screen.
     let userLocation: CLLocation?
 
-    //  camera ViewModel (AVCaptureSession + Vision logic)
+    // When user finishes (taps close), we pass the last description up
+    let onFinish: (String) -> Void
+
     @StateObject private var cameraVM = AICameraVM()
 
-    // Simple TTS for spoken feedback
     @State private var speechSynth = AVSpeechSynthesizer()
     @State private var lastSpokenText: String = ""
     @State private var lastSpokenTime: Date = .distantPast
@@ -72,7 +70,6 @@ struct AICamView: View {
     var body: some View {
         ZStack {
 
-            // LIVE CAMERA BACKGROUND
             CameraPreview(session: cameraVM.session)
                 .ignoresSafeArea()
 
@@ -94,7 +91,8 @@ struct AICamView: View {
                         .clipShape(Capsule())
                         .shadow(color: .black.opacity(0.25), radius: 6, y: 3)
                         .onTapGesture {
-                            dismiss()
+                            // Send the last description up to RootView
+                            onFinish(cameraVM.descriptionText)
                         }
                 }
                 .padding(.top, 45)
@@ -123,7 +121,6 @@ struct AICamView: View {
                             .foregroundColor(.white)
                             .font(.headline)
 
-                        // AI-generated description text
                         Text(cameraVM.descriptionText)
                             .foregroundColor(.white)
                             .font(.body)
@@ -154,13 +151,9 @@ struct AICamView: View {
 
     // MARK: - Simple Arabic TTS
     private func speak(text: String) {
-        // Don’t speak empty stuff
         guard !text.isEmpty else { return }
-
-        // Don’t repeat the exact same sentence
         guard text != lastSpokenText else { return }
 
-        // Don’t speak more often than every 3 seconds
         let now = Date()
         guard now.timeIntervalSince(lastSpokenTime) > 3 else { return }
         lastSpokenTime = now
@@ -168,14 +161,13 @@ struct AICamView: View {
 
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: "ar-SA")
-        utterance.rate = 0.48   // tweak slightly slower/faster
+        utterance.rate = 0.48
 
         speechSynth.stopSpeaking(at: .immediate)
         speechSynth.speak(utterance)
     }
 }
 
-// blur helper
 struct BlurView: UIViewRepresentable {
     var style: UIBlurEffect.Style
 
@@ -190,5 +182,5 @@ struct BlurView: UIViewRepresentable {
 }
 
 #Preview {
-    AICamView(userLocation: nil)
+    AICamView(userLocation: nil) { _ in }
 }

@@ -4,17 +4,16 @@
 //
 //  Created by Asma Khan on 30/11/2025.
 //
-
 import SwiftUI
 import CoreLocation
 
 struct LoadingLocationView: View {
 
-    //  observable location helper.
+    // Our observable location helper.
     @StateObject private var locationManager = LocationManager()
 
-    // When true,  move to the camera + AI screen.
-    @State private var goNext = false
+    // Callback when location is ready
+    let onLocated: (CLLocation?) -> Void
 
     var body: some View {
         ZStack {
@@ -31,7 +30,6 @@ struct LoadingLocationView: View {
                     .foregroundColor(.white)
                     .padding(.bottom, 40)
 
-                // Optional: show an error if permission is denied, etc.
                 if let error = locationManager.errorMessage {
                     Text(error)
                         .foregroundColor(.red)
@@ -45,22 +43,17 @@ struct LoadingLocationView: View {
         }
         .environment(\.layoutDirection, .rightToLeft)
         .onAppear {
-            // Start requesting the location as soon as this view shows.
             locationManager.start()
         }
-        .onChange(of: locationManager.currentLocation) { oldLocation, newLocation in
-            // When currentLocation becomes non-nil => we have a fix.
-            if newLocation != nil {
-                goNext = true
+        .onChange(of: locationManager.currentLocation) {
+            // As soon as we have a location, notify parent (RootView)
+            if let newLocation = locationManager.currentLocation {
+                onLocated(newLocation)
             }
-        }
-        .fullScreenCover(isPresented: $goNext) {
-            // Pass the location forward to the camera screen.
-            AICamView(userLocation: locationManager.currentLocation)
         }
     }
 }
 
 #Preview {
-    LoadingLocationView()
+    LoadingLocationView { _ in }
 }

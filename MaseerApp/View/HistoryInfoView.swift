@@ -6,22 +6,16 @@
 //
 
 import SwiftUI
-
-// Static Text temporarily
-
-let Title: String = "محل القهوة الأبيض"
-let dateText: String = "٢٠ ذو الحجة ١٤٤٧"
-let descriptionText: String = """
-أمامك على بُعد خطوتين شجرة خضراء متوسطة الطول، وعلى بُعد ثمانية خطوات هناك مجموعة كراسي بيضاء مقسمة حول طاولتين رخامية بيضاء أيضًا،
-الطريق الرئيسي على بُعد خمسة عشر خطوة منك.
-"""
-
-//  Main Screen
+import SwiftData
 
 struct HistoryInfoView: View {
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+
     @State private var showDeleteAlert = false
+
+    let item: HistoryItem
 
     var body: some View {
         ZStack {
@@ -33,30 +27,26 @@ struct HistoryInfoView: View {
 
                 GlassEffectContainer {
                     ZStack(alignment: .topTrailing) {
-                        // Content column (title, date, description, delete button)
                         VStack(alignment: .trailing, spacing: 16) {
 
-                            Spacer().frame(height: 70) // space under close button
+                            Spacer().frame(height: 70)
 
-                            // Title + date
                             VStack(alignment: .trailing, spacing: 4) {
-                                Text(Title)
+                                Text(item.title)
                                     .font(.custom("Geeza Pro", size: 30).bold())
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.trailing)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
-                                    .padding(.horizontal, 32)   // same left & right padding
+                                    .padding(.horizontal, 32)
 
-
-                                Text(dateText)
+                                Text(formatDate(item.date))
                                     .font(.custom("Geeza Pro", size: 18).bold())
                                     .foregroundColor(.gray.opacity(0.8))
                                     .multilineTextAlignment(.trailing)
                                     .padding(.horizontal, 32)
                             }
 
-                            // Description
-                            Text(descriptionText)
+                            Text(item.details)
                                 .font(.custom("Geeza Pro", size: 20).bold())
                                 .foregroundColor(.white.opacity(0.8))
                                 .multilineTextAlignment(.trailing)
@@ -65,7 +55,6 @@ struct HistoryInfoView: View {
 
                             Spacer()
 
-                            // Bottom delete button (inside the container)
                             Button {
                                 showDeleteAlert = true
                             } label: {
@@ -79,7 +68,6 @@ struct HistoryInfoView: View {
                             .padding(.bottom, 24)
                         }
 
-                        // Close button overlay (logical trailing, respects RTL)
                         Button {
                             dismiss()
                         } label: {
@@ -99,35 +87,43 @@ struct HistoryInfoView: View {
                     in: .rect(cornerRadius: 34)
                 )
 
-                Spacer() // keeps whole card in same place visually
+                Spacer()
             }
         }
-        // Set logical direction to RTL so trailing = right and leading = left for Arabic
-       // .environment(\.layoutDirection, .rightToLeft)
         .animation(.easeInOut, value: showDeleteAlert)
-
         .alert(
             "حذف السجّل",
             isPresented: $showDeleteAlert,
             actions: {
-                Button("تراجع", role: .cancel) {
-                    // just dismiss alert
-                }
+                Button("تراجع", role: .cancel) { }
 
                 Button("حذف", role: .destructive) {
-                    // TODO: hook to your ViewModel delete
+                    modelContext.delete(item)
                     dismiss()
                 }
             },
             message: {
-                Text("هل أنت متأكد أنك تريد حذف سجّل \"\(Title)\"؟ ، اذا كنت متاكد اضغط “حذف”، واذا كنت لا تريد حذف السّجل اضغط “تراجع” ")
+                Text("هل أنت متأكد أنك تريد حذف هذا السّجل؟ إذا كنت متأكدًا اضغط “حذف”، وإذا كنت لا تريد الحذف اضغط “تراجع”.")
             }
         )
     }
+
+    private func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ar_SA")
+        formatter.dateStyle = .medium
+        return formatter.string(from: date)
+    }
 }
 
-// Preview
-
 #Preview {
-    HistoryInfoView()
+    @Previewable @State var container = try! ModelContainer(for: HistoryItem.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+
+    let sample = HistoryItem(
+        title: "محل القهوة الأبيض",
+        details: "وصف تجريبي للمحيط حول المكان."
+    )
+
+    return HistoryInfoView(item: sample)
+        .modelContainer(container)
 }
