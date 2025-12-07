@@ -19,7 +19,9 @@ struct HistoryInfoView: View {
 
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color.black
+                .ignoresSafeArea()
+                .accessibilityHidden(true)
 
             VStack(spacing: 0) {
 
@@ -66,6 +68,9 @@ struct HistoryInfoView: View {
                             .glassEffect(.clear.tint(.darkerGray.opacity(1)))
                             .padding(.horizontal, 20)
                             .padding(.bottom, 24)
+                            .accessibilityLabel("حذف السجل")
+                            .accessibilityHint("سيتم حذف هذا السجل نهائياً")
+                            .accessibilityIdentifier("delete_history_button")
                         }
 
                         Button {
@@ -79,6 +84,9 @@ struct HistoryInfoView: View {
                         .glassEffect(.clear.tint(Color.darkerGray.opacity(1)))
                         .padding(.top, 24)
                         .padding(.horizontal, 24)
+                        .accessibilityLabel("إغلاق")
+                        .accessibilityHint("العودة إلى السجلّات")
+                        .accessibilityIdentifier("close_history_button")
                     }
                 }
                 .frame(width: 396, height: 792)
@@ -106,6 +114,7 @@ struct HistoryInfoView: View {
                 Text("هل أنت متأكد أنك تريد حذف هذا السّجل؟ إذا كنت متأكدًا اضغط “حذف”، وإذا كنت لا تريد الحذف اضغط “تراجع”.")
             }
         )
+//        .accessibilityLanguage("ar")
     }
 
     private func formatDate(_ date: Date) -> String {

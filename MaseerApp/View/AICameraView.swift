@@ -72,28 +72,31 @@ struct AICamView: View {
 
             CameraPreview(session: cameraVM.session)
                 .ignoresSafeArea()
+                .accessibilityHidden(true)
 
             // CLOSE BUTTON
             VStack {
                 HStack {
                     Spacer()
 
-                    Text("إغلاق")
-                        .foregroundColor(.white)
-                        .font(.headline)
-                        .padding(.horizontal, 28)
-                        .padding(.vertical, 10)
-                        .background(
-                            BlurView(style: .systemThinMaterialDark)
-                                .opacity(0.85)
-                        )
-                        .background(Color.white.opacity(0.05))
-                        .clipShape(Capsule())
-                        .shadow(color: .black.opacity(0.25), radius: 6, y: 3)
-                        .onTapGesture {
-                            // Send the last description up to RootView
-                            onFinish(cameraVM.descriptionText)
-                        }
+                    Button {
+                        onFinish(cameraVM.descriptionText)
+                    } label: {
+                        Text("إغلاق")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                            .padding(.horizontal, 28)
+                            .padding(.vertical, 10)
+                            .background(
+                                BlurView(style: .systemThinMaterialDark)
+                                    .opacity(0.85)
+                            )
+                            .background(Color.white.opacity(0.05))
+                            .clipShape(Capsule())
+                            .shadow(color: .black.opacity(0.25), radius: 6, y: 3)
+                    }
+                    .accessibilityLabel("إغلاق")
+                    .accessibilityHint("إغلاق الكاميرا والعودة")
                 }
                 .padding(.top, 45)
                 .padding(.trailing, 25)
@@ -110,6 +113,7 @@ struct AICamView: View {
                         .opacity(0.90)
                     Color.black.opacity(0.25)
                 }
+                .accessibilityHidden(true)
                 .frame(maxWidth: .infinity)
                 .frame(height: 360)
                 .clipShape(
@@ -147,6 +151,7 @@ struct AICamView: View {
             speak(text: newValue)
         }
         .environment(\.layoutDirection, .rightToLeft)
+//        .accessibilityLanguage("ar")
     }
 
     // MARK: - Simple Arabic TTS

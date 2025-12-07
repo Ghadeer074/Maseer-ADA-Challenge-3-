@@ -22,6 +22,7 @@ struct HomepageView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .ignoresSafeArea()
+                .accessibilityHidden(true)
 
             VStack {
 
@@ -59,6 +60,8 @@ struct HomepageView: View {
                         RoundedRectangle(cornerRadius: 1000, style: .continuous)
                             .fill(.button)
                     )
+                    .accessibilityLabel("ابدأ")
+                    .accessibilityHint("بدء تحديد الموقع وفتح الكاميرا")
 
                     Button(action: {
                         onShowHistory()
@@ -75,10 +78,13 @@ struct HomepageView: View {
                         RoundedRectangle(cornerRadius: 1000, style: .continuous)
                             .fill(.darkishGrey)
                     )
+                    .accessibilityLabel("السجلات السابقة")
+                    .accessibilityHint("عرض السجلات المحفوظة")
                 }
                 .padding(.bottom, 50)
             }
         }
+//        .accessibilityLanguage("ar")
     }
 }
 
