@@ -60,6 +60,7 @@ struct AICamView: View {
 
     // When user finishes (taps close), we pass the last description up
     let onFinish: (String) -> Void
+    let onCancel: () -> Void
 
     @StateObject private var cameraVM = AICameraVM()
 
@@ -80,7 +81,7 @@ struct AICamView: View {
                     Spacer()
 
                     Button {
-                        onFinish(cameraVM.descriptionText)
+                        onCancel()
                     } label: {
                         Text("إغلاق")
                             .foregroundColor(.white)
@@ -187,5 +188,5 @@ struct BlurView: UIViewRepresentable {
 }
 
 #Preview {
-    AICamView(userLocation: nil) { _ in }
+    AICamView(userLocation: nil, onFinish: { _ in }, onCancel: {})
 }

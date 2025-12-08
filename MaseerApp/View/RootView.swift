@@ -50,6 +50,13 @@ struct RootView: View {
 
                             // 2) GO to History list
                             path.append(.history)
+                        },
+                        onCancel: {
+                            // Go to History: first return to root, then push .history after a short delay
+                            path = []
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                                path.append(.history)
+                            }
                         }
                     )
 
