@@ -48,21 +48,32 @@ struct RootView: View {
                             )
                             modelContext.insert(item)
 
-                            // 2) GO to History list
-                            path.append(.history)
-                        },
-                        onCancel: {
-                            // Go to History: first return to root, then push .history after a short delay
+                            // 2) Return to Homepage (pop to root)
                             path = []
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                                path.append(.history)
-                            }
                         }
                     )
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar(.hidden, for: .navigationBar)
 
                 case .history:
                     HistoryPage { item in
                         path.append(.historyDetail(item))
+                    }
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(action: {
+                                if !path.isEmpty { path.removeLast() }
+                            }) {
+                                HStack(spacing: 6) {
+                                    Image(systemName: "chevron.backward")
+                                        .accessibilityHidden(true)
+                                    Text("رجوع")
+                                }
+                            }
+                            .accessibilityLabel("رجوع")
+                            .accessibilityHint("العودة الى الصفحة الرئيسيه من السجّلات السابقة")
+                        }
                     }
 
                 case .historyDetail(let item):
@@ -73,3 +84,4 @@ struct RootView: View {
         .environment(\.layoutDirection, .rightToLeft)
     }
 }
+

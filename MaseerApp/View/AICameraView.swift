@@ -7,7 +7,6 @@
 import SwiftUI
 import CoreLocation
 import AVFoundation
-import UIKit
 
 // MARK: - Camera preview wrapper
 
@@ -61,7 +60,6 @@ struct AICamView: View {
 
     // When user finishes (taps close), we pass the last description up
     let onFinish: (String) -> Void
-    let onCancel: () -> Void
 
     @StateObject private var cameraVM = AICameraVM()
 
@@ -82,7 +80,7 @@ struct AICamView: View {
                     Spacer()
 
                     Button {
-                        onCancel()
+                        onFinish(cameraVM.descriptionText)
                     } label: {
                         Text("إغلاق")
                             .foregroundColor(.white)
@@ -153,6 +151,7 @@ struct AICamView: View {
             speak(text: newValue)
         }
         .environment(\.layoutDirection, .rightToLeft)
+//        .accessibilityLanguage("ar")
     }
 
     // MARK: - Simple Arabic TTS
@@ -161,7 +160,6 @@ struct AICamView: View {
         guard text != lastSpokenText else { return }
 
         let now = Date()
-        // wait a bit so previous sentence can be understood
         guard now.timeIntervalSince(lastSpokenTime) > 3 else { return }
         lastSpokenTime = now
         lastSpokenText = text
@@ -189,9 +187,5 @@ struct BlurView: UIViewRepresentable {
 }
 
 #Preview {
-    AICamView(
-        userLocation: nil,
-        onFinish: { _ in },
-        onCancel: {}
-    )
+    AICamView(userLocation: nil) { _ in }
 }

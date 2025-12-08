@@ -132,45 +132,6 @@ extension AICameraVM {
     }
 }
 
-// MARK: - Helper: direction + distance from bounding box
-extension AICameraVM {
-
-    /// Interprets where the sign is in the frame and roughly how far it seems.
-    /// - Parameter box: VNRecognizedTextObservation.boundingBox (normalized 0...1)
-    private func makeDirection(from box: CGRect) -> (directionSentence: String, distanceSentence: String) {
-
-        // 1. Horizontal position → left / center / right
-        let centerX = box.midX
-        let directionSentence: String
-
-        switch centerX {
-        case ..<0.35:
-            directionSentence = "اللافتة تميل قليلًا إلى يسارك."
-        case 0.35...0.65:
-            directionSentence = "اللافتة تقريبًا أمامك في المنتصف."
-        default:
-            directionSentence = "اللافتة تميل قليلًا إلى يمينك."
-        }
-
-        // 2. Bounding-box height → rough distance estimate
-        let height = box.height
-        let distanceSentence: String
-
-        switch height {
-        case 0.35...1.0:
-            distanceSentence = "هي قريبة جدًا، يمكنك الوصول إليها بخطوات قليلة."
-        case 0.18..<0.35:
-            distanceSentence = "هي قريبة، تقدَّم عدة خطوات للأمام."
-        case 0.08..<0.18:
-            distanceSentence = "هي على مسافة متوسطة، تقدَّم للأمام حتى تكبر اللافتة في الصورة."
-        default:
-            distanceSentence = "هي بعيدة نسبيًا، تقدَّم للأمام حتى تصبح أقرب."
-        }
-
-        return (directionSentence, distanceSentence)
-    }
-}
-
 // MARK: - Capture output delegate (Vision)
 extension AICameraVM: AVCaptureVideoDataOutputSampleBufferDelegate {
 
@@ -225,14 +186,29 @@ extension AICameraVM: AVCaptureVideoDataOutputSampleBufferDelegate {
             }
             self.lastRecognizedText = text
 
-            // Build dynamic direction + distance sentences
-            let (directionSentence, distanceSentence) = self.makeDirection(from: box)
+            // Compute rough left/center/right based on horizontal position
+            let midX = box.midX
+            let position: String
+            if midX < 0.33 {
+                position = "إلى يسارك"
+            } else if midX > 0.66 {
+                position = "إلى يمينك"
+            } else {
+                position = "أمامك"
+            }
 
-            let newDescription = """
-            في المشهد أمامك لافتة مكتوب عليها "\(text)".
-            \(directionSentence)
-            \(distanceSentence)
-            """
+            // Compute coarse distance based on area (very rough)
+            let area = box.width * box.height
+            let distance: String
+            if area > 0.10 {
+                distance = "على بُعد خطوة أو خطوتين تقريبًا"
+            } else if area > 0.03 {
+                distance = "على بُعد بضع خطوات"
+            } else {
+                distance = "على مسافة أبعد قليلًا"
+            }
+
+            let newDescription = "\(position) \(distance) لافتة مكتوب عليها: \"\(text)\""
 
             DispatchQueue.main.async {
                 if newDescription != self.descriptionText {
