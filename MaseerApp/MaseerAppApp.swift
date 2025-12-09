@@ -12,9 +12,9 @@ struct MaseerAppApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .environment(\.locale, Locale(identifier: "ar"))
+                .environment(\.layoutDirection, .rightToLeft)
                 .modelContainer(for: HistoryItem.self)
         }
     }
 }
-
-
