@@ -29,13 +29,13 @@ struct HomepageView: View {
                 Spacer()
 
                 VStack(spacing: 7) {
-                    Text("مَسير")
+                    Text("Masser")
                         .font(.custom("Geeza Pro", size: 36))
                         .fontWeight(.regular)
                         .foregroundColor(Color.white)
                         .padding(7)
 
-                    Text("انت تعرف وِجهتك..ومَسير يعرف ملامحها")
+                    Text("You know your destination...and the path knows its features")
                         .font(.custom("Geeza Pro", size: 17))
                         .fontWeight(.bold)
                         .foregroundColor(Color.gray)
@@ -48,7 +48,7 @@ struct HomepageView: View {
                     Button(action: {
                         onStart()
                     }) {
-                        Text("ابدا")
+                        Text("Start")
                             .font(.custom("Geeza Pro", size: 21))
                             .fontWeight(.bold)
                             .foregroundColor(Color.white)
@@ -60,13 +60,13 @@ struct HomepageView: View {
                         RoundedRectangle(cornerRadius: 1000, style: .continuous)
                             .fill(.button)
                     )
-                    .accessibilityLabel("ابدأ")
-                    .accessibilityHint("بدء تحديد الموقع وفتح الكاميرا")
+                    .accessibilityLabel("Start")
+                    .accessibilityHint("Start locaitng tracking and open camera")
 
                     Button(action: {
                         onShowHistory()
                     }) {
-                        Text("السّجلات السابقة")
+                        Text("History")
                             .font(.custom("Geeza Pro", size: 21))
                             .fontWeight(.bold)
                             .foregroundColor(Color.white)
@@ -78,8 +78,8 @@ struct HomepageView: View {
                         RoundedRectangle(cornerRadius: 1000, style: .continuous)
                             .fill(.darkishGrey)
                     )
-                    .accessibilityLabel("السجلات السابقة")
-                    .accessibilityHint("عرض السجلات المحفوظة")
+                    .accessibilityLabel("History")
+                    .accessibilityHint("Show saved history")
                 }
                 .padding(.bottom, 50)
             }

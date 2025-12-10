@@ -19,7 +19,7 @@ final class AICameraVM: NSObject, ObservableObject {
     @Published var permissionDenied = false
 
     // Text that we show (and speak) about surroundings
-    @Published var descriptionText: String = "جاري تحليل المشهد أمامك..."
+    @Published var descriptionText: String = "Analyzing your surroundings..."
 
     // Internal queues / flags
     private let sessionQueue = DispatchQueue(label: "AICameraSessionQueue")
@@ -47,14 +47,14 @@ extension AICameraVM {
                         self.setupSession()
                     } else {
                         self.permissionDenied = true
-                        self.descriptionText = "صلاحية الكاميرا مرفوضة."
+                        self.descriptionText = "Camera permission denied."
                     }
                 }
             }
 
         default:
             permissionDenied = true
-            descriptionText = "صلاحية الكاميرا مرفوضة. فعّلها من الإعدادات."
+            descriptionText = "Camera permission denied. Enable it from settings."
         }
     }
 
@@ -81,7 +81,7 @@ extension AICameraVM {
             print("❌ No back camera found")
             session.commitConfiguration()
             DispatchQueue.main.async {
-                self.descriptionText = "لا يمكن الوصول للكاميرا الخلفية."
+                self.descriptionText = "Cannot access back camera"
             }
             return
         }
@@ -92,7 +92,7 @@ extension AICameraVM {
             print("❌ Cannot add camera input")
             session.commitConfiguration()
             DispatchQueue.main.async {
-                self.descriptionText = "تعذّر إعداد الكاميرا."
+                self.descriptionText = "Connot use camera"
             }
             return
         }
@@ -190,25 +190,25 @@ extension AICameraVM: AVCaptureVideoDataOutputSampleBufferDelegate {
             let midX = box.midX
             let position: String
             if midX < 0.33 {
-                position = "إلى يسارك"
+                position = " To your left"
             } else if midX > 0.66 {
-                position = "إلى يمينك"
+                position = "To your right"
             } else {
-                position = "أمامك"
+                position = "To your front"
             }
 
             // Compute coarse distance based on area (very rough)
             let area = box.width * box.height
             let distance: String
             if area > 0.10 {
-                distance = "على بُعد خطوة أو خطوتين تقريبًا"
+                distance = "Just a step or two away."
             } else if area > 0.03 {
-                distance = "على بُعد بضع خطوات"
+                distance = "Just a few steps away."
             } else {
-                distance = "على مسافة أبعد قليلًا"
+                distance = "A little further away."
             }
 
-            let newDescription = "\(position) \(distance) لافتة مكتوب عليها: \"\(text)\""
+            let newDescription = "\(position) \(distance) A sign that reads: \"\(text)\""
 
             DispatchQueue.main.async {
                 if newDescription != self.descriptionText {
@@ -219,7 +219,7 @@ extension AICameraVM: AVCaptureVideoDataOutputSampleBufferDelegate {
 
         request.recognitionLevel = .accurate
         request.usesLanguageCorrection = true
-        request.recognitionLanguages = ["ar", "en"]
+//        request.recognitionLanguages = ["ar", "en"]
 
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
                                             orientation: .up,

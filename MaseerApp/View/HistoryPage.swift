@@ -25,7 +25,7 @@ struct HistoryPage: View {
             ScrollView {
                 VStack(alignment: .trailing, spacing: 20) {
 
-                    Text("السّجلات السابقة")
+                    Text("History")
                         .font(.system(size: 34, weight: .bold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity, alignment: .center)

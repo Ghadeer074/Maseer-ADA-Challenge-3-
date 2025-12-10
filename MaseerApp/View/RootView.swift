@@ -68,11 +68,11 @@ struct RootView: View {
                                 HStack(spacing: 6) {
                                     Image(systemName: "chevron.backward")
                                         .accessibilityHidden(true)
-                                    Text("رجوع")
+                                    Text("back_button_title")
                                 }
                             }
-                            .accessibilityLabel("رجوع")
-                            .accessibilityHint("العودة الى الصفحة الرئيسيه من السجّلات السابقة")
+                            .accessibilityLabel(Text("back_button_accessibility_label"))
+                            .accessibilityHint(Text("back_button_accessibility_hint"))
                         }
                     }
 
@@ -81,7 +81,6 @@ struct RootView: View {
                 }
             }
         }
-        .environment(\.layoutDirection, .rightToLeft)
     }
 }
 

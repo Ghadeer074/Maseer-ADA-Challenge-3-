@@ -60,7 +60,7 @@ struct HistoryInfoView: View {
                             Button {
                                 showDeleteAlert = true
                             } label: {
-                                Text("حذف السجّل")
+                                Text("Delete history")
                                     .font(.custom("Geeza Pro", size: 20).bold())
                                     .foregroundColor(.brightRed)
                                     .frame(maxWidth: .infinity, minHeight: 48)
@@ -68,15 +68,15 @@ struct HistoryInfoView: View {
                             .glassEffect(.clear.tint(.darkerGray.opacity(1)))
                             .padding(.horizontal, 20)
                             .padding(.bottom, 24)
-                            .accessibilityLabel("حذف السجل")
-                            .accessibilityHint("سيتم حذف هذا السجل نهائياً")
+                            .accessibilityLabel("Delete record")
+                            .accessibilityHint("this record will be delerted permantly")
                             .accessibilityIdentifier("delete_history_button")
                         }
 
                         Button {
                             dismiss()
                         } label: {
-                            Text("إغلاق")
+                            Text("Close")
                                 .font(.custom("Geeza Pro", size: 18).bold())
                                 .foregroundColor(.white)
                                 .frame(width: 81, height: 41)
@@ -84,8 +84,8 @@ struct HistoryInfoView: View {
                         .glassEffect(.clear.tint(Color.darkerGray.opacity(1)))
                         .padding(.top, 24)
                         .padding(.horizontal, 24)
-                        .accessibilityLabel("إغلاق")
-                        .accessibilityHint("العودة إلى السجلّات")
+                        .accessibilityLabel("Close")
+                        .accessibilityHint("Back to history")
                         .accessibilityIdentifier("close_history_button")
                     }
                 }
@@ -100,19 +100,18 @@ struct HistoryInfoView: View {
         }
         .animation(.easeInOut, value: showDeleteAlert)
         .alert(
-            "حذف السجّل",
+            "Delete record",
             isPresented: $showDeleteAlert,
             actions: {
-                Button("تراجع", role: .cancel) { }
+                Button("Cancel", role: .cancel) { }
 
-                Button("حذف", role: .destructive) {
+                Button("Delete", role: .destructive) {
                     modelContext.delete(item)
                     dismiss()
                 }
             },
             message: {
-                Text("هل أنت متأكد أنك تريد حذف هذا السّجل؟ إذا كنت متأكدًا اضغط “حذف”، وإذا كنت لا تريد الحذف اضغط “تراجع”.")
-            }
+                Text("Are you sure you want to delete this record? If you are sure, press 'Delete'. If you don't want to delete it, press 'Cancel'.")            }
         )
 //        .accessibilityLanguage("ar")
     }
@@ -129,10 +128,10 @@ struct HistoryInfoView: View {
     @Previewable @State var container = try! ModelContainer(for: HistoryItem.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
 
     let sample = HistoryItem(
-        title: "محل القهوة الأبيض",
-        details: "وصف تجريبي للمحيط حول المكان."
+        title: "Coffee shop",
+        details: "An experimental description of the surroundings of the place."
     )
 
-    return HistoryInfoView(item: sample)
+    HistoryInfoView(item: sample)
         .modelContainer(container)
 }

@@ -82,7 +82,7 @@ struct AICamView: View {
                     Button {
                         onFinish(cameraVM.descriptionText)
                     } label: {
-                        Text("إغلاق")
+                        Text("Close")
                             .foregroundColor(.white)
                             .font(.headline)
                             .padding(.horizontal, 28)
@@ -95,8 +95,8 @@ struct AICamView: View {
                             .clipShape(Capsule())
                             .shadow(color: .black.opacity(0.25), radius: 6, y: 3)
                     }
-                    .accessibilityLabel("إغلاق")
-                    .accessibilityHint("إغلاق الكاميرا والعودة")
+                    .accessibilityLabel("Close")
+                    .accessibilityHint("Close camera")
                 }
                 .padding(.top, 45)
                 .padding(.trailing, 25)
@@ -121,7 +121,7 @@ struct AICamView: View {
                 )
                 .overlay(
                     VStack(alignment: .trailing, spacing: 14) {
-                        Text("جاري إنتاج معلومات محيطك..")
+                        Text("Genrating information about your surroundings ...")
                             .foregroundColor(.white)
                             .font(.headline)
 
@@ -133,7 +133,7 @@ struct AICamView: View {
                         Spacer()
 
                         if cameraVM.permissionDenied {
-                            Text("الرجاء تفعيل صلاحية الكاميرا من الإعدادات.")
+                            Text("Please enable camera access from settings.")
                                 .foregroundColor(.red)
                         }
                     }

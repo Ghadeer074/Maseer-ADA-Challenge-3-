@@ -51,7 +51,7 @@ final class LocationManager: NSObject, ObservableObject {
         case .denied, .restricted:
             print("⛔️ Permission denied or restricted")
             isLocating = false
-            errorMessage = "لا يمكن استخدام موقعك. تأكد من تفعيل الصلاحيات في الإعدادات."
+            errorMessage = "Cannot use your location . Please ensure permissions are enabled in your settings."
 
         @unknown default:
             isLocating = false

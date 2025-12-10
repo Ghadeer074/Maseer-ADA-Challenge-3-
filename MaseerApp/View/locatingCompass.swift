@@ -30,14 +30,12 @@ struct LoadingLocationView: View {
                     .tint(.white)
                     .scaleEffect(1.6)
                     .accessibilityLabel("Loading your location")
-                    .accessibilityIdentifier("locating_progress")
 
-                Text("يتم تحديد موقعك")
+                Text("Locating your location")
                     .foregroundColor(.white)
                     .padding(.bottom, 40)
-                    .accessibilityLabel("يتم تحديد موقعك")
+                    .accessibilityLabel("Locating your location")
                     .accessibilityAddTraits(.isHeader)
-                    .accessibilityIdentifier("locating_status_text")
 
                 if let error = locationManager.errorMessage {
                     Text(error)
@@ -46,8 +44,6 @@ struct LoadingLocationView: View {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 24)
                         .accessibilityIdentifier("location_error_message")
-                        .accessibilityLabel(error)
-                        .accessibilityHint("رسالة خطأ")
                 }
 
                 Spacer()

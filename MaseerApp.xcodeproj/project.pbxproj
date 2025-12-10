@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		89642CDD2EE9F5AB00BB2DBC /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 89642CDC2EE9F5AB00BB2DBC /* Localizable.xcstrings */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		6BD189962EDC1BEA0005EBC2 /* MaseerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaseerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		89642CDC2EE9F5AB00BB2DBC /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +50,7 @@
 		6BD1898D2EDC1BEA0005EBC2 = {
 			isa = PBXGroup;
 			children = (
+				89642CDC2EE9F5AB00BB2DBC /* Localizable.xcstrings */,
 				6BD189982EDC1BEA0005EBC2 /* MaseerApp */,
 				6BD189972EDC1BEA0005EBC2 /* Products */,
 			);
@@ -104,6 +110,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
 			);
 			mainGroup = 6BD1898D2EDC1BEA0005EBC2;
 			minimizedProjectReferenceProxies = 1;
@@ -122,6 +129,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89642CDD2EE9F5AB00BB2DBC /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +206,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -255,6 +264,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
