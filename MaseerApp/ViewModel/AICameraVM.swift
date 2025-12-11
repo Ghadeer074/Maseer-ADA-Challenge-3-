@@ -219,8 +219,6 @@ extension AICameraVM: AVCaptureVideoDataOutputSampleBufferDelegate {
 
         request.recognitionLevel = .accurate
         request.usesLanguageCorrection = true
-//        request.recognitionLanguages = ["ar", "en"]
-
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
                                             orientation: .up,
                                             options: [:])

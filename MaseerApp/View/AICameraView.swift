@@ -63,10 +63,6 @@ struct AICamView: View {
 
     @StateObject private var cameraVM = AICameraVM()
 
-    @State private var speechSynth = AVSpeechSynthesizer()
-    @State private var lastSpokenText: String = ""
-    @State private var lastSpokenTime: Date = .distantPast
-
     var body: some View {
         ZStack {
 
@@ -145,31 +141,9 @@ struct AICamView: View {
         .onAppear { cameraVM.configure() }
         .onDisappear {
             cameraVM.stop()
-            speechSynth.stopSpeaking(at: .immediate)
-        }
-        .onChange(of: cameraVM.descriptionText) { oldValue, newValue in
-            speak(text: newValue)
         }
         .environment(\.layoutDirection, .rightToLeft)
 //        .accessibilityLanguage("ar")
-    }
-
-    // MARK: - Simple Arabic TTS
-    private func speak(text: String) {
-        guard !text.isEmpty else { return }
-        guard text != lastSpokenText else { return }
-
-        let now = Date()
-        guard now.timeIntervalSince(lastSpokenTime) > 3 else { return }
-        lastSpokenTime = now
-        lastSpokenText = text
-
-        let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "ar-SA")
-        utterance.rate = 0.48
-
-        speechSynth.stopSpeaking(at: .immediate)
-        speechSynth.speak(utterance)
     }
 }
 
