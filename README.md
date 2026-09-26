@@ -63,11 +63,16 @@ Select your device, then build and run. Allow **camera** and **location** access
 
 ## My Contributions
 
-- Set up the project structure and MVVM architecture
-- Built the camera pipeline and **Vision** text recognition, including the direction and distance guidance logic
-- Implemented **Core Location**, the privacy permissions and RTL support
-- Connected all screens in `RootView` with a typed `NavigationStack`, and replaced custom speech synthesis with VoiceOver output to avoid audio conflicts
+I built the app's **backend**, working together with Feda and Asma:
+
+- **Vision:** real-time text recognition on camera frames, plus the direction and distance guidance logic
+- **AVFoundation:** the live camera capture pipeline
+- **Core Location:** location tracking and the camera and location privacy permissions
+- **Data:** the SwiftData history model, including saving, listing and deleting records
+- **VoiceOver:** accessibility labels, hints and announcements, plus Arabic RTL support
+- **Architecture:** the MVVM project structure, with all screens connected in `RootView` through a typed `NavigationStack`
 
 ## Team
 
-Ghadeer Fallatah ([@Ghadeer074](https://github.com/Ghadeer074)) · Feda · Bushra Alhejaili ([@Bushrahalhejaili](https://github.com/Bushrahalhejaili))
+- **Backend:** Ghadeer Fallatah ([@Ghadeer074](https://github.com/Ghadeer074)) · Feda · Asma
+- **Team members:** Bushra Alhejaili ([@Bushrahalhejaili](https://github.com/Bushrahalhejaili)) · Reeman
